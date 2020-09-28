@@ -1,0 +1,20 @@
+---
+- name: Deploy chatscrum container
+  hosts: all
+  tasks:
+    - name: update the system
+      yum:
+        name: "*"
+        state: latest
+    - name: Start service docker, if not started
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      become: yes
+    - name: create docker container
+      docker_container:
+        name: chat
+        image: chatscrum
+        state: started
+      become: yes
